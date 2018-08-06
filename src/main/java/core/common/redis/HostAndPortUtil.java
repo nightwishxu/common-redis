@@ -26,7 +26,7 @@ public class HostAndPortUtil {
                 String key;
                 String[] envHosts;
                 do {
-                    String key;
+//                    String key;
                     if (!it.hasNext()) {
                         StringBuilder strb = new StringBuilder("Redis hosts to be used : ");
 
@@ -36,15 +36,15 @@ public class HostAndPortUtil {
                             strb.append(" key : " + key);
                             strb.append("[");
                             List<HostAndPortUtil.HostAndPort> hostList = (List)hostAndPortMap.get(key);
-                            Iterator var18 = hostList.iterator();
+                            Iterator iterator = hostList.iterator();
 
                             while(true) {
                                 while(true) {
-                                    if (!var18.hasNext()) {
+                                    if (!iterator.hasNext()) {
                                         continue label60;
                                     }
 
-                                    HostAndPortUtil.HostAndPort hnp = (HostAndPortUtil.HostAndPort)var18.next();
+                                    HostAndPortUtil.HostAndPort hnp = (HostAndPortUtil.HostAndPort)iterator.next();
                                     if (hnp.pwd != null && hnp.pwd.length() > 0) {
                                         strb.append(hnp.host + ":" + hnp.port + ":" + hnp.pwd + ",");
                                     } else {
@@ -55,7 +55,7 @@ public class HostAndPortUtil {
                         }
 
                         System.out.println(strb);
-                        return;
+//                        return;
                     }
 
                     key = (String)it.next();
