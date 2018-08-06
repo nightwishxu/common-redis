@@ -1,4 +1,5 @@
 package core.common.redis;
+
 import core.common.util.PropertieUtils;
 import core.common.util.StringUtils;
 
@@ -16,69 +17,28 @@ public class HostAndPortUtil {
 
     static {
         propertieUtils.close();
-        Set<String> set = propertieUtils.stringPropertyNames();
-        if (set.size() == 0) {
+        Set set = propertieUtils.stringPropertyNames();
+        if (set.size() == 0)
             throw new IllegalArgumentException("args is null !");
-        } else {
-            Iterator it = set.iterator();
-
-            while(true) {
-                String key;
-                String[] envHosts;
-                do {
-//                    String key;
-                    if (!it.hasNext()) {
-                        StringBuilder strb = new StringBuilder("Redis hosts to be used : ");
-
-                        label60:
-                        for(Iterator it = hostAndPortMap.keySet().iterator(); it.hasNext(); strb.append("]")) {
-                            key = (String)it.next();
-                            strb.append(" key : " + key);
-                            strb.append("[");
-                            List<HostAndPortUtil.HostAndPort> hostList = (List)hostAndPortMap.get(key);
-                            Iterator iterator = hostList.iterator();
-
-                            while(true) {
-                                while(true) {
-                                    if (!iterator.hasNext()) {
-                                        continue label60;
-                                    }
-
-                                    HostAndPortUtil.HostAndPort hnp = (HostAndPortUtil.HostAndPort)iterator.next();
-                                    if (hnp.pwd != null && hnp.pwd.length() > 0) {
-                                        strb.append(hnp.host + ":" + hnp.port + ":" + hnp.pwd + ",");
-                                    } else {
-                                        strb.append(hnp.host + ":" + hnp.port + ",");
-                                    }
-                                }
-                            }
-                        }
-
-                        System.out.println(strb);
-//                        return;
-                    }
-
-                    key = (String)it.next();
-                    key = propertieUtils.getProperty(key);
-                    envHosts = key.split(",|，");
-                } while(envHosts.length == 0);
-
-                List<HostAndPortUtil.HostAndPort> hostList = new ArrayList();
-                String[] var9 = envHosts;
-                int var8 = envHosts.length;
-
-                for(int var7 = 0; var7 < var8; ++var7) {
-                    String hostDef = var9[var7];
+//        String hostDef;
+        for (Iterator it = set.iterator(); it.hasNext(); ) {
+            String key = (String) it.next();
+            String value = propertieUtils.getProperty(key);
+            String[] envHosts = value.split(",|，");
+            if (envHosts.length != 0) {
+                List hostList = new ArrayList();
+                for (String hostDef:envHosts) {
                     String[] hostAndPort = hostDef.split(":");
-                    if (hostAndPort != null && hostAndPort.length > 1) {
+                    if ((hostAndPort != null) && (hostAndPort.length > 1)) {
                         HostAndPortUtil.HostAndPort hnp = new HostAndPortUtil.HostAndPort();
                         hnp.host = hostAndPort[0];
-
                         try {
                             hnp.port = Integer.parseInt(hostAndPort[1]);
-                        } catch (NumberFormatException var13) {
+                        } catch (NumberFormatException nfe) {
                             hnp.port = 6379;
-                            throw new IllegalArgumentException(StringUtils.format(" ip : {0} port {1} is error !", new Object[]{hostAndPort[0], hostAndPort[1]}));
+                            throw new IllegalArgumentException(StringUtils.format(
+                                    " ip : {0} port {1} is error !", new Object[]{
+                                            hostAndPort[0], hostAndPort[1]}));
                         }
 
                         if (hostAndPort.length == 3) {
@@ -88,7 +48,6 @@ public class HostAndPortUtil {
                         hostList.add(hnp);
                     }
                 }
-
                 hostAndPortMap.put(key, hostList);
             }
         }
