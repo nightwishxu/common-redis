@@ -15,6 +15,6 @@ public class Constants {
 
     public static void main(String[] args) {
         JsonCacheClient client = new JsonCacheClient("redis_ref_hosts");
-        System.out.println(client.get("__"));
+        System.out.println(client.get("a_b_c"));
     }
 }
