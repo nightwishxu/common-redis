@@ -256,7 +256,7 @@ public class StringUtils {
     }
 
     public static String[] split(String originalString, String delimiterString) {
-        int index = false;
+//        int index = 0;
         String[] returnArray = null;
         int length = 0;
         if (originalString != null && delimiterString != null && !originalString.equals("")) {
@@ -391,7 +391,7 @@ public class StringUtils {
     public static String escapeSQLTags(String input) {
         if (input != null && input.length() != 0) {
             StringBuffer buf = new StringBuffer();
-            char ch = true;
+//            char ch = true;
 
             for(int i = 0; i < input.length(); ++i) {
                 char ch = input.charAt(i);
@@ -520,7 +520,7 @@ public class StringUtils {
     public static String replace(String str, String searchStr, String replaceStr, boolean caseSensitive) {
         String result = "";
         int i = 0;
-        int j = false;
+//        int j = 0;
         if (str == null) {
             return null;
         } else if (str.equals("")) {
@@ -784,7 +784,7 @@ public class StringUtils {
     }
 
     public static String decoderBase64(String s) {
-        byte[] b = null;
+//        byte[] b = null;
         String result = null;
         if (s != null) {
             BASE64Decoder decoder = new BASE64Decoder();
